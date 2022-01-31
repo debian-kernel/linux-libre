@@ -24,4 +24,3 @@ mkdir -p "$pkgdir"
 wget https://gitlab.com/sulinos/devel/sulin-sources/-/raw/master/mklinux -O mklinux
 chmod +x mklinux
 bash mklinux "$pkgdir"
-mv debian/linux-libre/boot/linux-${VERSION} debian/linux-libre/boot/vmlinuz-${VERSION}
