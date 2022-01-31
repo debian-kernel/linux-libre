@@ -22,6 +22,6 @@ jobs:
           prerelease: false
           title: "Auto build libre"
           files: |
-            /home/runner/work/debian-kernel/*.deb
-            /home/runner/work/debian-kernel/linux-libre/*.deb
+            /home/runner/work/linux-libre/*.deb
+            /home/runner/work/linux-libre/linux-libre/*.deb
 
