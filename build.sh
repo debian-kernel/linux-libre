@@ -5,6 +5,8 @@ export VERSION=$(curl https://linux-libre.fsfla.org/pub/linux-libre/releases/ | 
 if echo ${VERSION} | grep -e "\.0$" ; then
     export VERSION=${VERSION::-2}
 fi
+# Stage 0: set version
+sed -i "s/9999/${VERSION}/g" debian/changelog
 # Stage 1: Get version and fetch source code
 # fetch source
 wget -c http://linux-libre.fsfla.org/pub/linux-libre/releases/${VERSION}-gnu/linux-libre-${VERSION}-gnu.tar.xz
