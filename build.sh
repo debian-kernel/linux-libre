@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 #export VERSION=$(cat debian/changelog | head -n 1 | sed "s/.*(//g" | sed "s/).*//g")
-export VERSION=$(curl https://linux-libre.fsfla.org/pub/linux-libre/releases/ | sed "s/.*href=\"//g;s/-gnu.*//g" | grep -e "^[0-9]" | grep -v "rc" | sort -V | tail -n 1)
+export VERSION=$(curl https://kernel.org/ | grep "downloadarrow_small.png" | sed "s/.*href=\"//g;s/\".*//g;s/.*linux-//g;s/\.tar.*//g")
 if echo ${VERSION} | grep -e "\.[0-9]*\.0$" ; then
     export VERSION=${VERSION::-2}
 fi
@@ -9,20 +9,5 @@ fi
 sed -i "s/9999/${VERSION}/g" debian/changelog
 # Stage 1: Get version and fetch source code
 # fetch source
-wget -c http://linux-libre.fsfla.org/pub/linux-libre/releases/${VERSION}-gnu/linux-libre-${VERSION}-gnu.tar.xz
-# extrack if directory not exists
-[[ -d linux-${VERSION} ]] || tar -xf linux-libre-${VERSION}-gnu.tar.xz
-echo 1 > .stage
-# Enter source
-cd linux-${VERSION}
-
-# Redefine version
-#export VERSION=$(cat ../debian/changelog | head -n 1 | sed "s/.*(//g" | sed "s/).*//g")
-export VERSION=$(curl https://linux-libre.fsfla.org/pub/linux-libre/releases/ | sed "s/.*href=\"//g;s/-gnu.*//g" | grep -e "^[0-9]" | sort -V | tail -n 1)
-
-# Stage 2: Build & Install source code (Like archlinux)
-pkgdir=../debian/linux-libre
-mkdir -p "$pkgdir"
-wget https://gitlab.com/sulinos/devel/sulin-sources/-/raw/master/mklinux -O mklinux
-chmod +x mklinux
-bash mklinux "$pkgdir"
+wget https://gitlab.com/sulix/devel/sources/mklinux/-/raw/master/mklinux.sh -O mklinux
+bash mklinux -o "$pkgdir" -t libre -c "https://gitlab.com/sulix/devel/sources/mklinux/-/raw/master/config"
