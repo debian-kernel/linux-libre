@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 #export VERSION=$(cat debian/changelog | head -n 1 | sed "s/.*(//g" | sed "s/).*//g")
-export VERSION=$(curl https://kernel.org/ | grep "downloadarrow_small.png" | sed "s/.*href=\"//g;s/\".*//g;s/.*linux-//g;s/\.tar.*//g")
+export VERSION=$(curl https://linux-libre.fsfla.org/pub/linux-libre/releases/ | sed "s/.*href=\"//g;s/-gnu.*//g" | grep -e "^[0-9]" | grep -v "rc" | sort -V | tail -n 1)
 if echo ${VERSION} | grep -e "\.[0-9]*\.0$" ; then
     export VERSION=${VERSION::-2}
 fi
